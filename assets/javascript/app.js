@@ -6,47 +6,48 @@ Things left to do:
 
 */
 
-function apiCall() {
-
-
-        var button = $("<button>").html(searchTerm);
-        console.log(button);
-
-        // Add a button for every search input
-        $("#tags-appear-here").append(button);
-
-        var q = searchTerm;
-        var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=pRo4KGVeAcxTtT4xp7EE4TdGvYBcx0DX&q=" + q + "&limit=10&offset=0&rating=G&lang=en";
-        console.log(queryURL);
-        $.ajax({
-            url: queryURL,
-            method: 'GET',
-        }).then(function (response) {
-            console.log(response);
-            var link = response.data;
-
-            for (var i = 0; i < link.length; i++) {
-                var newGif = $("<img>");
-                newGif.attr("id", "gif");
-                var imageURL = link[i].images.fixed_height.url;
-                console.log(imageURL);
-                newGif.attr("src", imageURL);
-                $("#gifs-appear-here").prepend(newGif);
-
-            };
-
-
-
-        });
-
-    };
-
-
-$("#submitbutton").on("click", function () {
+function apiCall(q) {
     // Record every search input
     var searchTerm = $("#searchTerm").val();
     console.log(searchTerm);
 
+    var button = $("<button>").attr("id", "addButton").html(searchTerm);
+    $(button).attr("data-animal", searchTerm)
+
+    // Add a button for every search input
+    $("#tags-appear-here").append(button);
+
+    var q = searchTerm;
+    var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=pRo4KGVeAcxTtT4xp7EE4TdGvYBcx0DX&q=" + encodeURI(q) + "&limit=10&offset=0&rating=G&lang=en";
+    console.log(queryURL);
+    $.ajax({
+        url: queryURL,
+        method: 'GET',
+    }).then(function (response) {
+        console.log(response);
+        var link = response.data;
+
+        for (var i = 0; i < link.length; i++) {
+            var newGif = $("<img>");
+            newGif.attr("id", "gif");
+            var ratingContainer=$("<p>");
+            var rating=link[i].rating;
+            ratingContainer.attr("html",rating).prepend(newGif);
+            var imageURL = link[i].images.fixed_height.url;
+            console.log(imageURL);
+            newGif.attr("src", imageURL);
+            $("#gifs-appear-here").prepend(newGif);
+
+        };
+
+
+
+    });
+
+};
+
+
+$("#submitbutton").on("click", function () {
     // If search bar is empty, don't run the function
     if ($(this).find('searchTerm').val() == '') {
         event.preventDefault();
@@ -60,8 +61,16 @@ $("#submitbutton").on("click", function () {
 
 });
 
-$("#wookie").on("click",function wookieFunction(){
-    var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=pRo4KGVeAcxTtT4xp7EE4TdGvYBcx0DX&q=Chewbacca&limit=10&offset=0&rating=G&lang=en";
+
+
+
+
+
+
+
+
+$("#han").on("click", function soloFunction() {
+    var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=pRo4KGVeAcxTtT4xp7EE4TdGvYBcx0DX&q=" + encodeURI("Han Solo") + "&limit=10&offset=0&rating=G&lang=en";
     console.log(queryURL);
     $.ajax({
         url: queryURL,
@@ -83,11 +92,11 @@ $("#wookie").on("click",function wookieFunction(){
 
 
     });
-    
+
 })
 
-$("#han").on("click",function soloFunction(){
-    var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=pRo4KGVeAcxTtT4xp7EE4TdGvYBcx0DX&q="+encodeURI("Han Solo")+"&limit=10&offset=0&rating=G&lang=en";
+$("#vader").on("click", function vaderFunction() {
+    var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=pRo4KGVeAcxTtT4xp7EE4TdGvYBcx0DX&q=" + encodeURI("Darth Vader") + "&limit=10&offset=0&rating=G&lang=en";
     console.log(queryURL);
     $.ajax({
         url: queryURL,
@@ -109,10 +118,34 @@ $("#han").on("click",function soloFunction(){
 
 
     });
-    
+
 })
 
+$("#chewie").on("click", function chewieFunction() {
+    var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=pRo4KGVeAcxTtT4xp7EE4TdGvYBcx0DX&q=" + encodeURI("Chewbacca") + "&limit=10&offset=0&rating=G&lang=en";
+    console.log(queryURL);
+    $.ajax({
+        url: queryURL,
+        method: 'GET',
+    }).then(function (response) {
+        console.log(response);
+        var link = response.data;
 
+        for (var i = 0; i < link.length; i++) {
+            var newGif = $("<img>");
+            newGif.attr("id", "gif");
+            var imageURL = link[i].images.fixed_height.url;
+            console.log(imageURL);
+            newGif.attr("src", imageURL);
+            $("#gifs-appear-here").prepend(newGif);
+
+        };
+
+
+
+    });
+
+})
 
 
 

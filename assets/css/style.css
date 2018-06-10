@@ -17,6 +17,11 @@ button:nth-child(even) {
     font-size: 15px;
 }
 
+#addButton, #han, #wookie, #vader {
+    margin-left: 20px;
+    margin: 0;
+}
+
 #submitbutton {
     color: white;
     background-color:black;
